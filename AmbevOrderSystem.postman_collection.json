@@ -1,0 +1,1680 @@
+{
+	"info": {
+		"_postman_id": "0218adf2-33f3-4e25-a6ce-6356b50e7f15",
+		"name": "AmbevOrderSystem",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5759918"
+	},
+	"item": [
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Criar Ordem",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customerIdentification\": \"Bar do José\",\r\n  \"items\": [\r\n    {\r\n      \"productSku\": \"SKOL350\",\r\n      \"productName\": \"Skol 350ml\",\r\n      \"quantity\": 500,\r\n      \"unitPrice\": 2.50\r\n    },\r\n    {\r\n      \"productSku\": \"BRAHMA350\",\r\n      \"productName\": \"Brahma 350ml\",\r\n      \"quantity\": 600,\r\n      \"unitPrice\": 2.30\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/resellers/:resellerId/Orders",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"resellers",
+								":resellerId",
+								"Orders"
+							],
+							"variable": [
+								{
+									"key": "resellerId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Sucesso",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"customerIdentification\": \"Bar do José\",\r\n  \"items\": [\r\n    {\r\n      \"productSku\": \"SKOL350\",\r\n      \"productName\": \"Skol 350ml\",\r\n      \"quantity\": 500,\r\n      \"unitPrice\": 2.50\r\n    },\r\n    {\r\n      \"productSku\": \"BRAHMA350\",\r\n      \"productName\": \"Brahma 350ml\",\r\n      \"quantity\": 600,\r\n      \"unitPrice\": 2.30\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/resellers/:resellerId/Orders",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"resellers",
+										":resellerId",
+										"Orders"
+									],
+									"variable": [
+										{
+											"key": "resellerId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 27 Jul 2025 19:43:06 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Location",
+									"value": "https://localhost:7028/api/resellers/1/Orders/1"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"orderId\": 1,\n    \"customerIdentification\": \"Bar do José\",\n    \"items\": [\n        {\n            \"id\": 1,\n            \"productSku\": \"SKOL350\",\n            \"productName\": \"Skol 350ml\",\n            \"quantity\": 500,\n            \"unitPrice\": 2.5\n        },\n        {\n            \"id\": 2,\n            \"productSku\": \"BRAHMA350\",\n            \"productName\": \"Brahma 350ml\",\n            \"quantity\": 600,\n            \"unitPrice\": 2.3\n        }\n    ],\n    \"status\": \"Pending\",\n    \"orderCreatedAt\": \"2025-07-27T19:41:49.6785603Z\",\n    \"responseId\": \"26610a34-eae6-421e-a02e-c50901d890ba\",\n    \"createdAt\": \"2025-07-27T19:43:06.4680978Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Buscar Ordens por ressellerId",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "Sucesso",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/resellers/:resellerId/Orders",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"resellers",
+										":resellerId",
+										"Orders"
+									],
+									"variable": [
+										{
+											"key": "resellerId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 27 Jul 2025 19:46:39 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"orders\": [\n        {\n            \"id\": 1,\n            \"resellerId\": 1,\n            \"customerIdentification\": \"Bar do José\",\n            \"items\": [\n                {\n                    \"id\": 1,\n                    \"productSku\": \"SKOL350\",\n                    \"productName\": \"Skol 350ml\",\n                    \"quantity\": 500,\n                    \"unitPrice\": 2.5\n                },\n                {\n                    \"id\": 2,\n                    \"productSku\": \"BRAHMA350\",\n                    \"productName\": \"Brahma 350ml\",\n                    \"quantity\": 600,\n                    \"unitPrice\": 2.3\n                }\n            ],\n            \"status\": \"SentToAmbev\",\n            \"ambevOrderNumber\": \"AMB-20250727-7073\",\n            \"orderCreatedAt\": \"2025-07-27T19:41:49.6785603Z\",\n            \"responseId\": \"9a1794e9-0492-4d58-9865-dfc508e5c099\",\n            \"createdAt\": \"2025-07-27T19:46:40.4021009Z\"\n        }\n    ],\n    \"responseId\": \"f670a557-0dee-4dee-a2e4-99ec88935e1b\",\n    \"createdAt\": \"2025-07-27T19:46:40.4016018Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Buscar Ordens por ressellerId e orderId",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "Sucesso",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/resellers/:resellerId/Orders/:orderId",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"resellers",
+										":resellerId",
+										"Orders",
+										":orderId"
+									],
+									"variable": [
+										{
+											"key": "resellerId",
+											"value": "1"
+										},
+										{
+											"key": "orderId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 27 Jul 2025 19:50:09 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"resellerId\": 1,\n    \"customerIdentification\": \"Bar do José\",\n    \"items\": [\n        {\n            \"id\": 1,\n            \"productSku\": \"SKOL350\",\n            \"productName\": \"Skol 350ml\",\n            \"quantity\": 500,\n            \"unitPrice\": 2.5\n        },\n        {\n            \"id\": 2,\n            \"productSku\": \"BRAHMA350\",\n            \"productName\": \"Brahma 350ml\",\n            \"quantity\": 600,\n            \"unitPrice\": 2.3\n        }\n    ],\n    \"status\": \"SentToAmbev\",\n    \"ambevOrderNumber\": \"AMB-20250727-7073\",\n    \"orderCreatedAt\": \"2025-07-27T19:41:49.6785603Z\",\n    \"responseId\": \"8b9e4703-dc2f-4fb1-847b-6cda62d6f5f0\",\n    \"createdAt\": \"2025-07-27T19:50:10.236251Z\"\n}"
+						},
+						{
+							"name": "Ordem sem pedido min",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/resellers/:resellerId/Orders/:orderId",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"resellers",
+										":resellerId",
+										"Orders",
+										":orderId"
+									],
+									"variable": [
+										{
+											"key": "resellerId",
+											"value": "1"
+										},
+										{
+											"key": "orderId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 27 Jul 2025 19:51:48 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"resellerId\": 1,\n    \"customerIdentification\": \"Bar do José\",\n    \"items\": [\n        {\n            \"id\": 3,\n            \"productSku\": \"SKOL600\",\n            \"productName\": \"Skol 600ml\",\n            \"quantity\": 500,\n            \"unitPrice\": 5.5\n        }\n    ],\n    \"status\": \"Pending\",\n    \"ambevOrderNumber\": null,\n    \"orderCreatedAt\": \"2025-07-27T19:50:58.2569711Z\",\n    \"responseId\": \"9274ad92-2a83-4b06-85bb-bd0cd48da47c\",\n    \"createdAt\": \"2025-07-27T19:51:49.243667Z\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Outbox",
+			"item": [
+				{
+					"name": "Total pendente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Outbox/pending-count",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"Outbox",
+								"pending-count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mensagens por correlationId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Outbox/messages/:correlationId",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"Outbox",
+								"messages",
+								":correlationId"
+							],
+							"variable": [
+								{
+									"key": "correlationId",
+									"value": "8c6f7d14-8118-4afe-b068-2638b9d813c0"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/Outbox/messages/:correlationId",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Outbox",
+										"messages",
+										":correlationId"
+									],
+									"variable": [
+										{
+											"key": "correlationId",
+											"value": "8c6f7d14-8118-4afe-b068-2638b9d813c0"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 27 Jul 2025 21:17:40 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 2,\n        \"type\": \"AmbevOrderSubmission\",\n        \"data\": \"{\\\"ResellerId\\\":1,\\\"OrderIds\\\":[3],\\\"CreatedAt\\\":\\\"2025-07-27T21:16:58.3232645Z\\\"}\",\n        \"status\": \"Completed\",\n        \"retryCount\": 0,\n        \"maxRetries\": 3,\n        \"createdAt\": \"2025-07-27T21:16:58.3232753Z\",\n        \"processedAt\": \"2025-07-27T21:17:25.9551073Z\",\n        \"nextRetryAt\": null,\n        \"errorMessage\": null,\n        \"correlationId\": \"8c6f7d14-8118-4afe-b068-2638b9d813c0\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Reprocessar pendentes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Outbox/process-pending",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"Outbox",
+								"process-pending"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/Outbox/process-pending",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Outbox",
+										"process-pending"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 27 Jul 2025 21:18:29 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Processamento de mensagens pendentes iniciado\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Reprocessar retry",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Outbox/process-retry",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"Outbox",
+								"process-retry"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Reprocessar retry",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/Outbox/process-retry",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Outbox",
+										"process-retry"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 27 Jul 2025 21:22:40 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Processamento de mensagens de retry iniciado\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Resellers",
+			"item": [
+				{
+					"name": "Get All Resellers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Resellers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"Resellers"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All Resellers",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/Resellers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 19:44:39 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"resellers\": [\n        {\n            \"id\": 1,\n            \"cnpj\": \"11.222.333/0001-81\",\n            \"razaoSocial\": \"Distribuidora ABC LTDA\",\n            \"nomeFantasia\": \"ABC Bebidas\",\n            \"email\": \"contato@abc.com\",\n            \"phones\": [],\n            \"contacts\": [\n                {\n                    \"name\": \"João Silva\",\n                    \"isPrimary\": true\n                }\n            ],\n            \"deliveryAddresses\": [\n                {\n                    \"street\": \"Rua das Flores\",\n                    \"number\": \"123\",\n                    \"complement\": \"\",\n                    \"neighborhood\": \"Centro\",\n                    \"city\": \"São Paulo\",\n                    \"state\": \"SP\",\n                    \"zipCode\": \"01234-567\",\n                    \"isPrimary\": true\n                }\n            ],\n            \"isActive\": false,\n            \"createdDate\": \"2025-07-26T19:38:17.5356267Z\",\n            \"updatedDate\": \"0001-01-01T00:00:00\",\n            \"responseId\": \"6d754346-81a3-4250-a6c8-28b33c4056af\",\n            \"createdAt\": \"2025-07-26T19:44:39.5282602Z\"\n        },\n        {\n            \"id\": 2,\n            \"cnpj\": \"11.222.333/0001-81\",\n            \"razaoSocial\": \"Distribuidora ABC LTDA\",\n            \"nomeFantasia\": \"ABC Bebidas\",\n            \"email\": \"contato@abc.com\",\n            \"phones\": [\n                {\n                    \"number\": \"11987654321\",\n                    \"isPrimary\": true\n                }\n            ],\n            \"contacts\": [\n                {\n                    \"name\": \"João Silva\",\n                    \"isPrimary\": true\n                },\n                {\n                    \"name\": \"Paulo Antonio\",\n                    \"isPrimary\": false\n                }\n            ],\n            \"deliveryAddresses\": [\n                {\n                    \"street\": \"Rua das Flores\",\n                    \"number\": \"123\",\n                    \"complement\": \"\",\n                    \"neighborhood\": \"Centro\",\n                    \"city\": \"São Paulo\",\n                    \"state\": \"SP\",\n                    \"zipCode\": \"01234-567\",\n                    \"isPrimary\": true\n                }\n            ],\n            \"isActive\": false,\n            \"createdDate\": \"2025-07-26T19:40:18.570092Z\",\n            \"updatedDate\": \"0001-01-01T00:00:00\",\n            \"responseId\": \"07a0ba03-089f-4000-adb6-868b52589d26\",\n            \"createdAt\": \"2025-07-26T19:44:39.5282644Z\"\n        }\n    ],\n    \"totalCount\": 2,\n    \"responseId\": \"b77cdddc-1f39-4349-9f55-2989b690b53b\",\n    \"createdAt\": \"2025-07-26T19:44:39.5283163Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Reseller",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Resellers/{id}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"Resellers",
+								"{id}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Reseller",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/Resellers/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 19:45:21 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"cnpj\": \"11.222.333/0001-81\",\n    \"razaoSocial\": \"Distribuidora ABC LTDA\",\n    \"nomeFantasia\": \"ABC Bebidas\",\n    \"email\": \"contato@abc.com\",\n    \"phones\": [\n        {\n            \"number\": \"11987654321\",\n            \"isPrimary\": true\n        }\n    ],\n    \"contacts\": [\n        {\n            \"name\": \"João Silva\",\n            \"isPrimary\": true\n        },\n        {\n            \"name\": \"Paulo Antonio\",\n            \"isPrimary\": false\n        }\n    ],\n    \"deliveryAddresses\": [\n        {\n            \"street\": \"Rua das Flores\",\n            \"number\": \"123\",\n            \"complement\": \"\",\n            \"neighborhood\": \"Centro\",\n            \"city\": \"São Paulo\",\n            \"state\": \"SP\",\n            \"zipCode\": \"01234-567\",\n            \"isPrimary\": true\n        }\n    ],\n    \"isActive\": false,\n    \"createdDate\": \"2025-07-26T19:40:18.570092Z\",\n    \"updatedDate\": \"0001-01-01T00:00:00\",\n    \"responseId\": \"c72731c8-b898-4147-a3bf-614728b19337\",\n    \"createdAt\": \"2025-07-26T19:45:21.7550047Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Reseller By Cnpj",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Resellers/cnpj/:cnpj",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"Resellers",
+								"cnpj",
+								":cnpj"
+							],
+							"variable": [
+								{
+									"key": "cnpj",
+									"value": "11222333000181"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Reseller By Cnpj",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/Resellers/cnpj/:cnpj",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers",
+										"cnpj",
+										":cnpj"
+									],
+									"variable": [
+										{
+											"key": "cnpj",
+											"value": "11222333000181"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 19:51:47 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"cnpj\": \"11222333000181\",\n    \"razaoSocial\": \"Distribuidora ABC LTDA\",\n    \"nomeFantasia\": \"ABC Bebidas\",\n    \"email\": \"contato@abc.com\",\n    \"phones\": [\n        {\n            \"number\": \"11987654321\",\n            \"isPrimary\": true\n        }\n    ],\n    \"contacts\": [\n        {\n            \"name\": \"João Silva\",\n            \"isPrimary\": true\n        }\n    ],\n    \"deliveryAddresses\": [\n        {\n            \"street\": \"Rua das Flores\",\n            \"number\": \"123\",\n            \"complement\": \"\",\n            \"neighborhood\": \"Centro\",\n            \"city\": \"São Paulo\",\n            \"state\": \"SP\",\n            \"zipCode\": \"01234-567\",\n            \"isPrimary\": true\n        }\n    ],\n    \"isActive\": false,\n    \"createdDate\": \"2025-07-26T19:48:35.3808751Z\",\n    \"updatedDate\": \"0001-01-01T00:00:00\",\n    \"responseId\": \"fdf42181-6668-42ff-af45-c607e7f174d9\",\n    \"createdAt\": \"2025-07-26T19:51:45.137384Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Reseller",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cnpj\": \"11.222.333/0001-81\",\r\n  \"razaoSocial\": \"Mercadão ABC LTDA\",\r\n  \"nomeFantasia\": \"Mercadão Bebidas\",\r\n  \"email\": \"contato@abc.com\",\r\n \r\n  \"contacts\": [\r\n    {\r\n      \"name\": \"João Silva\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"deliveryAddresses\": [\r\n    {\r\n    \"Neighborhood\":\"Centro\",\r\n      \"street\": \"Rua das Flores\",\r\n      \"number\": \"123\",\r\n      \"city\": \"São Paulo\",\r\n      \"state\": \"SP\",\r\n      \"zipCode\": \"01234-567\",\r\n      \"isPrimary\": true\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/Resellers/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"Resellers",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Reseller",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cnpj\": \"11.222.333/0001-81\",\r\n  \"razaoSocial\": \"Mercadão ABC LTDA\",\r\n  \"nomeFantasia\": \"Mercadão Bebidas\",\r\n  \"email\": \"contato@abc.com\",\r\n \r\n  \"contacts\": [\r\n    {\r\n      \"name\": \"João Silva\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"deliveryAddresses\": [\r\n    {\r\n    \"Neighborhood\":\"Centro\",\r\n      \"street\": \"Rua das Flores\",\r\n      \"number\": \"123\",\r\n      \"city\": \"São Paulo\",\r\n      \"state\": \"SP\",\r\n      \"zipCode\": \"01234-567\",\r\n      \"isPrimary\": true\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/Resellers/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 19:53:35 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"cnpj\": \"11.222.333/0001-81\",\n    \"razaoSocial\": \"Mercadão ABC LTDA\",\n    \"nomeFantasia\": \"Mercadão Bebidas\",\n    \"email\": \"contato@abc.com\",\n    \"phones\": [],\n    \"contacts\": [\n        {\n            \"name\": \"João Silva\",\n            \"isPrimary\": true\n        }\n    ],\n    \"deliveryAddresses\": [\n        {\n            \"street\": \"Rua das Flores\",\n            \"number\": \"123\",\n            \"complement\": \"\",\n            \"neighborhood\": \"Centro\",\n            \"city\": \"São Paulo\",\n            \"state\": \"SP\",\n            \"zipCode\": \"01234-567\",\n            \"isPrimary\": true\n        }\n    ],\n    \"isActive\": false,\n    \"createdDate\": \"2025-07-26T19:48:35.3808751Z\",\n    \"updatedDate\": \"0001-01-01T00:00:00\",\n    \"responseId\": \"688bb19c-fb0c-43d9-aadc-3b91f027003d\",\n    \"createdAt\": \"2025-07-26T19:53:35.3950026Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Reseller",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Resellers/{id}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"Resellers",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Reseller",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cnpj\": \"11.222.333/0001-81\",\r\n  \"razaoSocial\": \"Distribuidora ABC LTDA\",\r\n  \"nomeFantasia\": \"ABC Bebidas\",\r\n  \"email\": \"contato@abc.com\",\r\n \r\n  \"contacts\": [\r\n    {\r\n      \"name\": \"João Silva\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"deliveryAddresses\": [\r\n    {\r\n    \"Neighborhood\":\"Centro\",\r\n      \"street\": \"Rua das Flores\",\r\n      \"number\": \"123\",\r\n      \"city\": \"São Paulo\",\r\n      \"state\": \"SP\",\r\n      \"zipCode\": \"01234-567\",\r\n      \"isPrimary\": true\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/Resellers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"Resellers"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Sucesso",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cnpj\": \"11.222.333/0001-81\",\r\n  \"razaoSocial\": \"Distribuidora ABC LTDA\",\r\n  \"nomeFantasia\": \"ABC Bebidas\",\r\n  \"email\": \"contato@abc.com\",\r\n  \"phones\": [\r\n    {\r\n      \"number\": \"11987654321\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"contacts\": [\r\n    {\r\n      \"name\": \"João Silva\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"deliveryAddresses\": [\r\n    {\r\n      \"Neighborhood\":\"Centro\",\r\n      \"street\": \"Rua das Flores\",\r\n      \"number\": \"123\",\r\n      \"city\": \"São Paulo\",\r\n      \"state\": \"SP\",\r\n      \"zipCode\": \"01234-567\",\r\n      \"isPrimary\": true\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/Resellers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 19:15:22 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Location",
+									"value": "https://localhost:7028/api/Resellers/1"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"cnpj\": \"11.222.333/0001-81\",\n    \"razaoSocial\": \"Distribuidora ABC LTDA\",\n    \"nomeFantasia\": \"ABC Bebidas\",\n    \"email\": \"contato@abc.com\",\n    \"phones\": [\n        {\n            \"number\": \"11987654321\",\n            \"isPrimary\": true\n        }\n    ],\n    \"contacts\": [\n        {\n            \"name\": \"João Silva\",\n            \"isPrimary\": true\n        }\n    ],\n    \"deliveryAddresses\": [\n        {\n            \"Neighborhood\":\"Centro\",\n            \"street\": \"Rua das Flores\",\n            \"number\": \"123\",\n            \"complement\": \"\",\n            \"neighborhood\": \"Centro\",\n            \"city\": \"São Paulo\",\n            \"state\": \"SP\",\n            \"zipCode\": \"01234-567\",\n            \"isPrimary\": true\n        }\n    ],\n    \"isActive\": false,\n    \"createdDate\": \"2025-07-26T19:15:22.4792063Z\",\n    \"updatedDate\": \"0001-01-01T00:00:00\",\n    \"responseId\": \"49c3db98-3fb6-45da-ad7a-81d66122050b\",\n    \"createdAt\": \"2025-07-26T19:15:22.6767356Z\"\n}"
+						},
+						{
+							"name": "Sucesso Sem telefone cadastrado",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cnpj\": \"11.222.333/0001-81\",\r\n  \"razaoSocial\": \"Distribuidora ABC LTDA\",\r\n  \"nomeFantasia\": \"ABC Bebidas\",\r\n  \"email\": \"contato@abc.com\",\r\n \r\n  \"contacts\": [\r\n    {\r\n      \"name\": \"João Silva\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"deliveryAddresses\": [\r\n    {\r\n    \"Neighborhood\":\"Centro\",\r\n      \"street\": \"Rua das Flores\",\r\n      \"number\": \"123\",\r\n      \"city\": \"São Paulo\",\r\n      \"state\": \"SP\",\r\n      \"zipCode\": \"01234-567\",\r\n      \"isPrimary\": true\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/Resellers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 19:38:17 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Location",
+									"value": "https://localhost:7028/api/Resellers/1"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"cnpj\": \"11.222.333/0001-81\",\n    \"razaoSocial\": \"Distribuidora ABC LTDA\",\n    \"nomeFantasia\": \"ABC Bebidas\",\n    \"email\": \"contato@abc.com\",\n    \"phones\": [],\n    \"contacts\": [\n        {\n            \"name\": \"João Silva\",\n            \"isPrimary\": true\n        }\n    ],\n    \"deliveryAddresses\": [\n        {\n            \"street\": \"Rua das Flores\",\n            \"number\": \"123\",\n            \"complement\": \"\",\n            \"neighborhood\": \"Centro\",\n            \"city\": \"São Paulo\",\n            \"state\": \"SP\",\n            \"zipCode\": \"01234-567\",\n            \"isPrimary\": true\n        }\n    ],\n    \"isActive\": false,\n    \"createdDate\": \"2025-07-26T19:38:17.5356267Z\",\n    \"updatedDate\": \"0001-01-01T00:00:00\",\n    \"responseId\": \"7eb807a2-a413-4582-b491-a75f11d6baad\",\n    \"createdAt\": \"2025-07-26T19:38:17.6479261Z\"\n}"
+						},
+						{
+							"name": "Sucesso , mais de um contato",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cnpj\": \"11.222.333/0001-81\",\r\n  \"razaoSocial\": \"Distribuidora ABC LTDA\",\r\n  \"nomeFantasia\": \"ABC Bebidas\",\r\n  \"email\": \"contato@abc.com\",\r\n  \"phones\": [\r\n    {\r\n      \"number\": \"11987654321\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"contacts\": [\r\n    {\r\n      \"name\": \"João Silva\",\r\n      \"isPrimary\": true\r\n    },\r\n        {\r\n      \"name\": \"Paulo Antonio\"\r\n    }\r\n  ],\r\n  \"deliveryAddresses\": [\r\n    {\r\n    \"Neighborhood\":\"Centro\",\r\n      \"street\": \"Rua das Flores\",\r\n      \"number\": \"123\",\r\n      \"city\": \"São Paulo\",\r\n      \"state\": \"SP\",\r\n      \"zipCode\": \"01234-567\",\r\n      \"isPrimary\": true\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/Resellers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 19:40:18 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Location",
+									"value": "https://localhost:7028/api/Resellers/2"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"cnpj\": \"11.222.333/0001-81\",\n    \"razaoSocial\": \"Distribuidora ABC LTDA\",\n    \"nomeFantasia\": \"ABC Bebidas\",\n    \"email\": \"contato@abc.com\",\n    \"phones\": [\n        {\n            \"number\": \"11987654321\",\n            \"isPrimary\": true\n        }\n    ],\n    \"contacts\": [\n        {\n            \"name\": \"João Silva\",\n            \"isPrimary\": true\n        },\n        {\n            \"name\": \"Paulo Antonio\",\n            \"isPrimary\": false\n        }\n    ],\n    \"deliveryAddresses\": [\n        {\n            \"street\": \"Rua das Flores\",\n            \"number\": \"123\",\n            \"complement\": \"\",\n            \"neighborhood\": \"Centro\",\n            \"city\": \"São Paulo\",\n            \"state\": \"SP\",\n            \"zipCode\": \"01234-567\",\n            \"isPrimary\": true\n        }\n    ],\n    \"isActive\": false,\n    \"createdDate\": \"2025-07-26T19:40:18.570092Z\",\n    \"updatedDate\": \"0001-01-01T00:00:00\",\n    \"responseId\": \"ce5d083b-14ed-410b-9218-5781077ed56b\",\n    \"createdAt\": \"2025-07-26T19:40:18.5881379Z\"\n}"
+						},
+						{
+							"name": "CNPJ inválido",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cnpj\": \"CNPJINVALIDO\",\r\n    \"razaoSocial\": \"Distribuidora ABC LTDA\",\r\n    \"nomeFantasia\": \"ABC Bebidas\",\r\n    \"email\": \"contato@abc.com\",\r\n    \"phones\": [\r\n        {\r\n            \"number\": \"11987654321\",\r\n            \"isPrimary\": true\r\n        }\r\n    ],\r\n    \"contacts\": [\r\n        {\r\n            \"name\": \"João Silva\",\r\n            \"isPrimary\": true\r\n        }\r\n    ],\r\n    \"deliveryAddresses\": [\r\n        {\r\n            \"Neighborhood\": \"Centro\",\r\n            \"street\": \"Rua das Flores\",\r\n            \"number\": \"123\",\r\n            \"city\": \"São Paulo\",\r\n            \"state\": \"SP\",\r\n            \"zipCode\": \"01234-567\",\r\n            \"isPrimary\": true\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/Resellers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 14:49:47 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": [\n        \"CNPJ inválido\"\n    ]\n}"
+						},
+						{
+							"name": "CNPJ é obrigatório",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \r\n  \"razaoSocial\": \"Distribuidora ABC LTDA\",\r\n  \"nomeFantasia\": \"ABC Bebidas\",\r\n  \"email\": \"contato@abc.com\",\r\n  \"phones\": [\r\n    {\r\n      \"number\": \"11987654321\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"contacts\": [\r\n    {\r\n      \"name\": \"João Silva\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"deliveryAddresses\": [\r\n    {\r\n      \"Neighborhood\":\"Centro\",\r\n      \"street\": \"Rua das Flores\",\r\n      \"number\": \"123\",\r\n      \"city\": \"São Paulo\",\r\n      \"state\": \"SP\",\r\n      \"zipCode\": \"01234-567\",\r\n      \"isPrimary\": true\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/Resellers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 19:34:46 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"BadRequest\",\n    \"version\": \"1.0.0\",\n    \"error\": {\n        \"errorCode\": \"VALIDATION_ERROR\",\n        \"message\": \"CNPJ é obrigatório; CNPJ deve ser válido\"\n    }\n}"
+						},
+						{
+							"name": "Razão Social é obrigatória",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cnpj\": \"11.222.333/0001-81\",\r\n \r\n  \"nomeFantasia\": \"ABC Bebidas\",\r\n  \"email\": \"contato@abc.com\",\r\n  \"phones\": [\r\n    {\r\n      \"number\": \"11987654321\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"contacts\": [\r\n    {\r\n      \"name\": \"João Silva\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"deliveryAddresses\": [\r\n    {\r\n      \"Neighborhood\":\"Centro\",        \r\n      \"street\": \"Rua das Flores\",\r\n      \"number\": \"123\",\r\n      \"city\": \"São Paulo\",\r\n      \"state\": \"SP\",\r\n      \"zipCode\": \"01234-567\",\r\n      \"isPrimary\": true\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/Resellers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 19:35:10 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"BadRequest\",\n    \"version\": \"1.0.0\",\n    \"error\": {\n        \"errorCode\": \"VALIDATION_ERROR\",\n        \"message\": \"Razão Social é obrigatória\"\n    }\n}"
+						},
+						{
+							"name": "Razão Social deve ter no máximo 100 caracteres",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cnpj\": \"11.222.333/0001-81\",\r\n  \"razaoSocial\": \"{{random_100_chars}}\",\r\n  \"nomeFantasia\": \"ABC Bebidas\",\r\n  \"email\": \"contato@abc.com\",\r\n  \"phones\": [\r\n    {\r\n      \"number\": \"11987654321\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"contacts\": [\r\n    {\r\n      \"name\": \"João Silva\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"deliveryAddresses\": [\r\n    {\r\n      \"Neighborhood\":\"Centro\",        \r\n      \"street\": \"Rua das Flores\",\r\n      \"number\": \"123\",\r\n      \"city\": \"São Paulo\",\r\n      \"state\": \"SP\",\r\n      \"zipCode\": \"01234-567\",\r\n      \"isPrimary\": true\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/Resellers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 19:35:22 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"BadRequest\",\n    \"version\": \"1.0.0\",\n    \"error\": {\n        \"errorCode\": \"VALIDATION_ERROR\",\n        \"message\": \"Razão Social deve ter no máximo 100 caracteres\"\n    }\n}"
+						},
+						{
+							"name": "Nome Fantasia deve ter no máximo 100 caracteres",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cnpj\": \"11.222.333/0001-81\",\r\n  \"razaoSocial\": \"Distribuidora ABC LTDA\",\r\n  \"nomeFantasia\": \"{{random_100_chars}}\",\r\n  \"email\": \"contato@abc.com\",\r\n  \"phones\": [\r\n    {\r\n      \"number\": \"11987654321\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"contacts\": [\r\n    {\r\n      \"name\": \"João Silva\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"deliveryAddresses\": [\r\n    {\r\n      \"Neighborhood\":\"Centro\",    \r\n      \"street\": \"Rua das Flores\",\r\n      \"number\": \"123\",\r\n      \"city\": \"São Paulo\",\r\n      \"state\": \"SP\",\r\n      \"zipCode\": \"01234-567\",\r\n      \"isPrimary\": true\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/Resellers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 19:32:33 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"BadRequest\",\n    \"version\": \"1.0.0\",\n    \"error\": {\n        \"errorCode\": \"VALIDATION_ERROR\",\n        \"message\": \"Nome Fantasia deve ter no máximo 100 caracteres; Todos os endereços devem ter dados válidos\"\n    }\n}"
+						},
+						{
+							"name": "Nome Fantasia é obrigatório",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cnpj\": \"11.222.333/0001-81\",\r\n  \"razaoSocial\": \"Distribuidora ABC LTDA\", \r\n  \"email\": \"contato@abc.com\",\r\n  \"phones\": [\r\n    {\r\n      \"number\": \"11987654321\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"contacts\": [\r\n    {\r\n      \"name\": \"João Silva\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"deliveryAddresses\": [\r\n    {\r\n     \"Neighborhood\":\"Centro\",\r\n      \"street\": \"Rua das Flores\",\r\n      \"number\": \"123\",\r\n      \"city\": \"São Paulo\",\r\n      \"state\": \"SP\",\r\n      \"zipCode\": \"01234-567\",\r\n      \"isPrimary\": true\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/Resellers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 19:36:05 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"BadRequest\",\n    \"version\": \"1.0.0\",\n    \"error\": {\n        \"errorCode\": \"VALIDATION_ERROR\",\n        \"message\": \"Nome Fantasia é obrigatório\"\n    }\n}"
+						},
+						{
+							"name": "Telefone Invalido",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cnpj\": \"11.222.333/0001-81\",\r\n  \"razaoSocial\": \"Distribuidora ABC LTDA\",\r\n  \"nomeFantasia\": \"ABC Bebidas\",\r\n  \"email\": \"contato@abc.com\",\r\n  \"phones\": [\r\n    {\r\n      \"number\": \"1198765432155\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"contacts\": [\r\n    {\r\n      \"name\": \"João Silva\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"deliveryAddresses\": [\r\n    {\r\n    \"Neighborhood\":\"Centro\",\r\n      \"street\": \"Rua das Flores\",\r\n      \"number\": \"123\",\r\n      \"city\": \"São Paulo\",\r\n      \"state\": \"SP\",\r\n      \"zipCode\": \"01234-567\",\r\n      \"isPrimary\": true\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/Resellers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 19:37:13 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"BadRequest\",\n    \"version\": \"1.0.0\",\n    \"error\": {\n        \"errorCode\": \"VALIDATION_ERROR\",\n        \"message\": \"Todos os telefones devem estar em formato válido\"\n    }\n}"
+						},
+						{
+							"name": "Endereço invalido - sem bairro",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cnpj\": \"11.222.333/0001-81\",\r\n  \"razaoSocial\": \"Distribuidora ABC LTDA\",\r\n  \"nomeFantasia\": \"ABC Bebidas\",\r\n  \"email\": \"contato@abc.com\",\r\n  \"phones\": [\r\n    {\r\n      \"number\": \"11987654321\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"contacts\": [\r\n    {\r\n      \"name\": \"João Silva\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"deliveryAddresses\": [\r\n    {\r\n\r\n      \"street\": \"Rua das Flores\",\r\n      \"number\": \"123\",\r\n      \"city\": \"São Paulo\",\r\n      \"state\": \"SP\",\r\n      \"zipCode\": \"01234-567\",\r\n      \"isPrimary\": true\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/Resellers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 19:41:32 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"BadRequest\",\n    \"version\": \"1.0.0\",\n    \"error\": {\n        \"errorCode\": \"VALIDATION_ERROR\",\n        \"message\": \"Todos os endereços devem ter dados válidos\"\n    }\n}"
+						},
+						{
+							"name": "Endereço invalido - sem rua",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cnpj\": \"11.222.333/0001-81\",\r\n  \"razaoSocial\": \"Distribuidora ABC LTDA\",\r\n  \"nomeFantasia\": \"ABC Bebidas\",\r\n  \"email\": \"contato@abc.com\",\r\n  \"phones\": [\r\n    {\r\n      \"number\": \"11987654321\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"contacts\": [\r\n    {\r\n      \"name\": \"João Silva\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"deliveryAddresses\": [\r\n    {\r\n      \"Neighborhood\":\"Centro\",\r\n\r\n      \"number\": \"123\",\r\n      \"city\": \"São Paulo\",\r\n      \"state\": \"SP\",\r\n      \"zipCode\": \"01234-567\",\r\n      \"isPrimary\": true\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/Resellers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 19:41:57 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"BadRequest\",\n    \"version\": \"1.0.0\",\n    \"error\": {\n        \"errorCode\": \"VALIDATION_ERROR\",\n        \"message\": \"Todos os endereços devem ter dados válidos\"\n    }\n}"
+						},
+						{
+							"name": "Endereço invalido - sem numero",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cnpj\": \"11.222.333/0001-81\",\r\n  \"razaoSocial\": \"Distribuidora ABC LTDA\",\r\n  \"nomeFantasia\": \"ABC Bebidas\",\r\n  \"email\": \"contato@abc.com\",\r\n  \"phones\": [\r\n    {\r\n      \"number\": \"11987654321\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"contacts\": [\r\n    {\r\n      \"name\": \"João Silva\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"deliveryAddresses\": [\r\n    {\r\n      \"Neighborhood\":\"Centro\",\r\n      \"street\": \"Rua das Flores\",\r\n\r\n      \"city\": \"São Paulo\",\r\n      \"state\": \"SP\",\r\n      \"zipCode\": \"01234-567\",\r\n      \"isPrimary\": true\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/Resellers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 19:42:16 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"BadRequest\",\n    \"version\": \"1.0.0\",\n    \"error\": {\n        \"errorCode\": \"VALIDATION_ERROR\",\n        \"message\": \"Todos os endereços devem ter dados válidos\"\n    }\n}"
+						},
+						{
+							"name": "Endereço invalido - Sem cidade",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cnpj\": \"11.222.333/0001-81\",\r\n  \"razaoSocial\": \"Distribuidora ABC LTDA\",\r\n  \"nomeFantasia\": \"ABC Bebidas\",\r\n  \"email\": \"contato@abc.com\",\r\n  \"phones\": [\r\n    {\r\n      \"number\": \"11987654321\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"contacts\": [\r\n    {\r\n      \"name\": \"João Silva\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"deliveryAddresses\": [\r\n    {\r\n      \"Neighborhood\":\"Centro\",\r\n      \"street\": \"Rua das Flores\",\r\n      \"number\": \"123\",\r\n      \"state\": \"SP\",\r\n      \"zipCode\": \"01234-567\",\r\n      \"isPrimary\": true\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/Resellers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 19:43:11 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"BadRequest\",\n    \"version\": \"1.0.0\",\n    \"error\": {\n        \"errorCode\": \"VALIDATION_ERROR\",\n        \"message\": \"Todos os endereços devem ter dados válidos\"\n    }\n}"
+						},
+						{
+							"name": "Endereço invalido - Sem estado",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cnpj\": \"11.222.333/0001-81\",\r\n  \"razaoSocial\": \"Distribuidora ABC LTDA\",\r\n  \"nomeFantasia\": \"ABC Bebidas\",\r\n  \"email\": \"contato@abc.com\",\r\n  \"phones\": [\r\n    {\r\n      \"number\": \"11987654321\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"contacts\": [\r\n    {\r\n      \"name\": \"João Silva\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"deliveryAddresses\": [\r\n    {\r\n      \"Neighborhood\":\"Centro\",\r\n      \"street\": \"Rua das Flores\",\r\n      \"number\": \"123\",\r\n      \"city\": \"São Paulo\",\r\n \r\n      \"zipCode\": \"01234-567\",\r\n      \"isPrimary\": true\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/Resellers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 19:43:43 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"BadRequest\",\n    \"version\": \"1.0.0\",\n    \"error\": {\n        \"errorCode\": \"VALIDATION_ERROR\",\n        \"message\": \"Todos os endereços devem ter dados válidos\"\n    }\n}"
+						},
+						{
+							"name": "Endereço invalido - Sem CEP",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cnpj\": \"11.222.333/0001-81\",\r\n  \"razaoSocial\": \"Distribuidora ABC LTDA\",\r\n  \"nomeFantasia\": \"ABC Bebidas\",\r\n  \"email\": \"contato@abc.com\",\r\n  \"phones\": [\r\n    {\r\n      \"number\": \"11987654321\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"contacts\": [\r\n    {\r\n      \"name\": \"João Silva\",\r\n      \"isPrimary\": true\r\n    }\r\n  ],\r\n  \"deliveryAddresses\": [\r\n    {\r\n      \"Neighborhood\":\"Centro\",\r\n      \"street\": \"Rua das Flores\",\r\n      \"number\": \"123\",\r\n      \"city\": \"São Paulo\",\r\n      \"state\": \"SP\",\r\n\r\n      \"isPrimary\": true\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/Resellers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"Resellers"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Jul 2025 19:44:08 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"BadRequest\",\n    \"version\": \"1.0.0\",\n    \"error\": {\n        \"errorCode\": \"VALIDATION_ERROR\",\n        \"message\": \"Todos os endereços devem ter dados válidos\"\n    }\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"function generateRandomString(length) {\r",
+					"    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';\r",
+					"    let result = '';\r",
+					"    for (let i = 0; i < length; i++) {\r",
+					"        result += chars.charAt(Math.floor(Math.random() * chars.length));\r",
+					"    }\r",
+					"    return result;\r",
+					"}\r",
+					"\r",
+					"// Define a variável global ou local\r",
+					"pm.environment.set(\"random_100_chars\", generateRandomString(101));"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

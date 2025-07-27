@@ -45,5 +45,34 @@ namespace AmbevOrderSystem.Infrastructure.Repositories
                 .OrderByDescending(o => o.CreatedAt)
                 .ToListAsync();
         }
+
+        public async Task<List<CustomerOrder>> GetByIdsAsync(List<int> orderIds)
+        {
+            return await _dbSet
+                .Include(o => o.Items)
+                .Include(o => o.Reseller)
+                .Where(o => orderIds.Contains(o.Id))
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<CustomerOrder>> GetPendingOrdersByResellerIdAsync(int resellerId)
+        {
+            return await _dbSet
+                .Include(o => o.Items)
+                .Include(o => o.Reseller)
+                .Where(o => o.ResellerId == resellerId &&
+                           (o.Status == OrderStatus.Pending || o.Status == OrderStatus.Retry))
+                .OrderByDescending(o => o.CreatedAt)
+                .ToListAsync();
+        }
+
+        public async Task<int> GetTotalQuantityByResellerIdAsync(int resellerId)
+        {
+            return await _dbSet
+                .Where(o => o.ResellerId == resellerId &&
+                           (o.Status == OrderStatus.Pending || o.Status == OrderStatus.Retry))
+                .SelectMany(o => o.Items)
+                .SumAsync(i => i.Quantity);
+        }
     }
 }

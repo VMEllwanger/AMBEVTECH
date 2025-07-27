@@ -33,6 +33,14 @@ namespace AmbevOrderSystem.Infrastructure.Configurations
                 .WithOne(e => e.CustomerOrder)
                 .HasForeignKey(e => e.CustomerOrderId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasIndex(x => x.ResellerId);
+            builder.HasIndex(x => x.Status);
+            builder.HasIndex(x => x.CreatedAt);
+
+            builder.HasIndex(x => new { x.ResellerId, x.Status });
+
+            builder.HasIndex(x => new { x.ResellerId, x.Status, x.CreatedAt });
         }
     }
 }

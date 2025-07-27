@@ -1,15 +1,9 @@
 using AmbevOrderSystem.Infrastructure.Entities;
 using AmbevOrderSystem.Infrastructure.Repositories;
-using AmbevOrderSystem.Infrastructure.Services;
-using AmbevOrderSystem.Services.Factories;
 using AmbevOrderSystem.Services.Interfaces;
 using AmbevOrderSystem.Services.Models.Commands.Order;
-using AmbevOrderSystem.Services.Models.Responses.Order;
 using AmbevOrderSystem.Services.UseCases.Order;
-using AutoFixture;
-using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using Moq;
 using ResellerEntity = AmbevOrderSystem.Infrastructure.Entities.Reseller;
 
 namespace AmbevOrderSystem.Services.Tests.UseCases.Order
@@ -19,7 +13,7 @@ namespace AmbevOrderSystem.Services.Tests.UseCases.Order
         private readonly Mock<IOrderRepository> _orderRepositoryMock;
         private readonly Mock<IResellerRepository> _resellerRepositoryMock;
         private readonly Mock<IOrderFactory> _orderFactoryMock;
-        private readonly Mock<IAmbevApiService> _ambevApiServiceMock;
+        private readonly Mock<IOutboxService> _outboxServiceMock;
         private readonly Mock<ILogger<CreateCustomerOrderUseCase>> _loggerMock;
         private readonly CreateCustomerOrderUseCase _useCase;
 
@@ -28,14 +22,14 @@ namespace AmbevOrderSystem.Services.Tests.UseCases.Order
             _orderRepositoryMock = new Mock<IOrderRepository>();
             _resellerRepositoryMock = new Mock<IResellerRepository>();
             _orderFactoryMock = new Mock<IOrderFactory>();
-            _ambevApiServiceMock = new Mock<IAmbevApiService>();
+            _outboxServiceMock = new Mock<IOutboxService>();
             _loggerMock = new Mock<ILogger<CreateCustomerOrderUseCase>>();
 
             _useCase = new CreateCustomerOrderUseCase(
                 _orderRepositoryMock.Object,
                 _resellerRepositoryMock.Object,
                 _orderFactoryMock.Object,
-                _ambevApiServiceMock.Object,
+                _outboxServiceMock.Object,
                 _loggerMock.Object);
         }
 
@@ -155,7 +149,7 @@ namespace AmbevOrderSystem.Services.Tests.UseCases.Order
         }
 
         [Fact]
-        public async Task ExecuteAsync_ComQuantidadeMinimaAtingida_DeveEnviarParaAmbev()
+        public async Task ExecuteAsync_ComQuantidadeSuficiente_DeveEnfileirarNoOutbox()
         {
             // Arrange
             var command = _fixture.Create<CreateCustomerOrderCommand>();
@@ -191,14 +185,18 @@ namespace AmbevOrderSystem.Services.Tests.UseCases.Order
             _orderRepositoryMock.Setup(x => x.AddAsync(order))
                 .ReturnsAsync(createdOrder);
 
-            _orderRepositoryMock.Setup(x => x.GetByResellerIdAsync(command.ResellerId))
-                .ReturnsAsync(pendingOrders);
 
-            _ambevApiServiceMock.Setup(x => x.SubmitOrderAsync(It.IsAny<Infrastructure.DTOs.AmbevOrderRequest>()))
-                .ReturnsAsync(new Infrastructure.DTOs.AmbevOrderResponse { OrderNumber = "AMB-123" });
+            _orderRepositoryMock.Setup(x => x.GetTotalQuantityByResellerIdAsync(command.ResellerId))
+                .ReturnsAsync(1000);
+
+            _orderRepositoryMock.Setup(x => x.GetPendingOrdersByResellerIdAsync(command.ResellerId))
+                .ReturnsAsync(pendingOrders);
 
             _orderRepositoryMock.Setup(x => x.UpdateAsync(It.IsAny<CustomerOrder>()))
                 .ReturnsAsync((CustomerOrder order) => order);
+
+            _outboxServiceMock.Setup(x => x.EnqueueAmbevOrderAsync(command.ResellerId, It.IsAny<List<int>>(), It.IsAny<string>()))
+                .ReturnsAsync(new OutboxMessage { Id = 1, CorrelationId = "test-correlation-id" });
 
             // Act
             var result = await _useCase.ExecuteAsync(command);
@@ -207,11 +205,18 @@ namespace AmbevOrderSystem.Services.Tests.UseCases.Order
             result.Should().NotBeNull();
             result.IsSuccess.Should().BeTrue();
 
-            _ambevApiServiceMock.Verify(x => x.SubmitOrderAsync(It.IsAny<Infrastructure.DTOs.AmbevOrderRequest>()), Times.Once);
+
+            _orderRepositoryMock.Verify(x => x.GetTotalQuantityByResellerIdAsync(command.ResellerId), Times.Once);
+            _orderRepositoryMock.Verify(x => x.GetPendingOrdersByResellerIdAsync(command.ResellerId), Times.Once);
+
+
+            result.Value.Should().NotBeNull();
+            result.Value.CorrelationId.Should().NotBeNullOrEmpty();
+            result.Value.EnqueuedForProcessing.Should().BeTrue();
         }
 
         [Fact]
-        public async Task ExecuteAsync_ComQuantidadeInsuficiente_NaoDeveEnviarParaAmbev()
+        public async Task ExecuteAsync_ComQuantidadeInsuficiente_NaoDeveEnfileirarNoOutbox()
         {
             // Arrange
             var command = _fixture.Create<CreateCustomerOrderCommand>();
@@ -225,12 +230,6 @@ namespace AmbevOrderSystem.Services.Tests.UseCases.Order
                 new() { Quantity = 200 }
             };
 
-            var pendingOrders = new List<CustomerOrder>
-            {
-                new() { Status = OrderStatus.Pending, Items = new List<OrderItem> { new() { Quantity = 300 } } },
-                new() { Status = OrderStatus.Pending, Items = new List<OrderItem> { new() { Quantity = 200 } } }
-            };
-
             _resellerRepositoryMock.Setup(x => x.GetByIdAsync(command.ResellerId))
                 .ReturnsAsync(reseller);
 
@@ -240,8 +239,9 @@ namespace AmbevOrderSystem.Services.Tests.UseCases.Order
             _orderRepositoryMock.Setup(x => x.AddAsync(order))
                 .ReturnsAsync(createdOrder);
 
-            _orderRepositoryMock.Setup(x => x.GetByResellerIdAsync(command.ResellerId))
-                .ReturnsAsync(pendingOrders);
+
+            _orderRepositoryMock.Setup(x => x.GetTotalQuantityByResellerIdAsync(command.ResellerId))
+                .ReturnsAsync(500);
 
             // Act
             var result = await _useCase.ExecuteAsync(command);
@@ -250,7 +250,15 @@ namespace AmbevOrderSystem.Services.Tests.UseCases.Order
             result.Should().NotBeNull();
             result.IsSuccess.Should().BeTrue();
 
-            _ambevApiServiceMock.Verify(x => x.SubmitOrderAsync(It.IsAny<Infrastructure.DTOs.AmbevOrderRequest>()), Times.Never);
+
+            _orderRepositoryMock.Verify(x => x.GetTotalQuantityByResellerIdAsync(command.ResellerId), Times.Once);
+
+
+            _orderRepositoryMock.Verify(x => x.GetPendingOrdersByResellerIdAsync(command.ResellerId), Times.Never);
+
+            result.Value.Should().NotBeNull();
+            result.Value.CorrelationId.Should().BeNull();
+            result.Value.EnqueuedForProcessing.Should().BeFalse();
         }
     }
 }

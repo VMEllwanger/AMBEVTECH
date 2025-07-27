@@ -10,6 +10,8 @@ namespace AmbevOrderSystem.Services.Models.Responses.Order
         public List<OrderItemResponse> Items { get; set; } = new();
         public string Status { get; set; } = string.Empty;
         public DateTime OrderCreatedAt { get; set; }
+        public string? CorrelationId { get; set; }
+        public bool EnqueuedForProcessing { get; set; }
     }
 
     /// <summary>

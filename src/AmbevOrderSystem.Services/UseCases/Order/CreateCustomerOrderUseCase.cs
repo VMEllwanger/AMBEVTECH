@@ -19,20 +19,20 @@ namespace AmbevOrderSystem.Services.UseCases.Order
         private readonly IOrderRepository _orderRepository;
         private readonly IResellerRepository _resellerRepository;
         private readonly IOrderFactory _orderFactory;
-        private readonly IAmbevApiService _ambevApiService;
+        private readonly IOutboxService _outboxService;
         private readonly ILogger<CreateCustomerOrderUseCase> _logger;
 
         public CreateCustomerOrderUseCase(
             IOrderRepository orderRepository,
             IResellerRepository resellerRepository,
             IOrderFactory orderFactory,
-            IAmbevApiService ambevApiService,
+            IOutboxService outboxService,
             ILogger<CreateCustomerOrderUseCase> logger)
         {
             _orderRepository = orderRepository;
             _resellerRepository = resellerRepository;
             _orderFactory = orderFactory;
-            _ambevApiService = ambevApiService;
+            _outboxService = outboxService;
             _logger = logger;
         }
 
@@ -70,9 +70,11 @@ namespace AmbevOrderSystem.Services.UseCases.Order
                 var order = await _orderFactory.CreateAsync(command.ResellerId, request);
                 var createdOrder = await _orderRepository.AddAsync(order);
 
-                await TrySubmitToAmbevAsync(command.ResellerId);
+                var (correlationId, enqueued) = await TrySubmitToAmbevViaOutboxAsync(command.ResellerId);
 
                 var response = OrderMapper.ToCreateResponse(createdOrder);
+                response.CorrelationId = correlationId;
+                response.EnqueuedForProcessing = enqueued;
 
                 _logger.LogInformation("Pedido criado com sucesso. ID: {OrderId}", createdOrder.Id);
                 return Result<CreateCustomerOrderResponse>.Success(response);
@@ -84,71 +86,43 @@ namespace AmbevOrderSystem.Services.UseCases.Order
             }
         }
 
-        private async Task TrySubmitToAmbevAsync(int resellerId)
+        private async Task<(string? correlationId, bool enqueued)> TrySubmitToAmbevViaOutboxAsync(int resellerId)
         {
             try
             {
-                var allOrders = await _orderRepository.GetByResellerIdAsync(resellerId);
-                var pendingOrders = allOrders.Where(o => o.Status == OrderStatus.Pending || o.Status == OrderStatus.Retry).ToList();
-
-                if (!pendingOrders.Any())
-                {
-                    _logger.LogInformation("Nenhum pedido pendente para revenda {ResellerId}", resellerId);
-                    return;
-                }
-
-                var totalQuantity = pendingOrders.SelectMany(o => o.Items).Sum(i => i.Quantity);
+                var totalQuantity = await _orderRepository.GetTotalQuantityByResellerIdAsync(resellerId);
 
                 if (totalQuantity < 1000)
                 {
                     _logger.LogInformation("Quantidade total {Quantity} não atingiu mínimo de 1000 unidades para revenda {ResellerId}",
                         totalQuantity, resellerId);
-                    return;
+                    return (null, false);
                 }
 
-                var reseller = pendingOrders.First().Reseller;
-                var allItems = pendingOrders.SelectMany(o => o.Items)
-                    .GroupBy(i => i.ProductSku)
-                    .Select(g => new AmbevOrderSystem.Infrastructure.DTOs.OrderItemDto
-                    {
-                        ProductSku = g.Key,
-                        ProductName = g.First().ProductName,
-                        Quantity = g.Sum(i => i.Quantity),
-                        UnitPrice = g.First().UnitPrice
-                    }).ToList();
+                var pendingOrders = await _orderRepository.GetPendingOrdersByResellerIdAsync(resellerId);
 
-                var ambevRequest = new AmbevOrderRequest
+                if (!pendingOrders.Any())
                 {
-                    ResellerCnpj = reseller.Cnpj,
-                    Items = allItems
-                };
-
-                _logger.LogInformation("Enviando pedido para Ambev. Revenda: {ResellerId}, Total: {Quantity} unidades",
-                    resellerId, totalQuantity);
-
-                var ambevResponse = await _ambevApiService.SubmitOrderAsync(ambevRequest);
-
-                foreach (var order in pendingOrders)
-                {
-                    order.Status = OrderStatus.SentToAmbev;
-                    order.AmbevOrderNumber = ambevResponse.OrderNumber;
-                    await _orderRepository.UpdateAsync(order);
+                    _logger.LogInformation("Nenhum pedido pendente para revenda {ResellerId}", resellerId);
+                    return (null, false);
                 }
 
-                _logger.LogInformation("Pedido enviado com sucesso para Ambev. Número: {OrderNumber}",
-                    ambevResponse.OrderNumber);
+                var orderIds = pendingOrders.Select(o => o.Id).ToList();
+                var correlationId = Guid.NewGuid().ToString();
+
+                _logger.LogInformation("Enfileirando pedido para Ambev via Outbox. Revenda: {ResellerId}, Pedidos: {OrderIds}, Total: {Quantity} unidades",
+                    resellerId, string.Join(", ", orderIds), totalQuantity);
+
+                await _outboxService.EnqueueAmbevOrderAsync(resellerId, orderIds, correlationId);
+
+                _logger.LogInformation("Pedido enfileirado com sucesso no Outbox. CorrelationId: {CorrelationId}", correlationId);
+
+                return (correlationId, true);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao enviar pedido para Ambev. Revenda: {ResellerId}", resellerId);
-
-                var allOrders = await _orderRepository.GetByResellerIdAsync(resellerId);
-                var pendingOrders = allOrders.Where(o => o.Status == OrderStatus.Pending || o.Status == OrderStatus.Retry).ToList();
-                foreach (var order in pendingOrders)
-                {
-                    order.Status = OrderStatus.Retry;
-                    await _orderRepository.UpdateAsync(order);
-                }
+                _logger.LogError(ex, "Erro ao enfileirar pedido no Outbox. Revenda: {ResellerId}", resellerId);
+                return (null, false);
             }
         }
     }

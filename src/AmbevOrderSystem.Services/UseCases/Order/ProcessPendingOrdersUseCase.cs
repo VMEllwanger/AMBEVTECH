@@ -61,14 +61,15 @@ namespace AmbevOrderSystem.Services.UseCases.Order
         private async Task<ProcessPendingOrdersResponse> ProcessResellerOrdersAsync(int resellerId)
         {
             var response = new ProcessPendingOrdersResponse();
-            var pendingOrders = await _orderRepository.GetPendingOrdersAsync();
-            var resellerOrders = pendingOrders.Where(o => o.ResellerId == resellerId).ToList();
+
+            var resellerOrders = await _orderRepository.GetPendingOrdersByResellerIdAsync(resellerId);
 
             if (!resellerOrders.Any())
                 return response;
 
-            response.ProcessedOrders = resellerOrders.Count;
-            var totalQuantity = resellerOrders.SelectMany(o => o.Items).Sum(i => i.Quantity);
+            response.ProcessedOrders = resellerOrders.Count();
+
+            var totalQuantity = await _orderRepository.GetTotalQuantityByResellerIdAsync(resellerId);
 
             if (totalQuantity < 1000)
             {
@@ -108,7 +109,7 @@ namespace AmbevOrderSystem.Services.UseCases.Order
                     await _orderRepository.UpdateAsync(order);
                 }
 
-                response.SentToAmbev = resellerOrders.Count;
+                response.SentToAmbev = resellerOrders.Count();
                 _logger.LogInformation("Pedido enviado com sucesso para Ambev. Número: {OrderNumber}",
                     ambevResponse.OrderNumber);
             }
@@ -122,7 +123,7 @@ namespace AmbevOrderSystem.Services.UseCases.Order
                     await _orderRepository.UpdateAsync(order);
                 }
 
-                response.FailedOrders = resellerOrders.Count;
+                response.FailedOrders = resellerOrders.Count();
             }
 
             return response;

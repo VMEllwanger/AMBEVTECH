@@ -2,15 +2,20 @@ using AmbevOrderSystem.Api.ModelState;
 using AmbevOrderSystem.Infrastructure.Data;
 using AmbevOrderSystem.Infrastructure.DTOs;
 using AmbevOrderSystem.Infrastructure.Repositories;
+using AmbevOrderSystem.Infrastructure.Services;
 using AmbevOrderSystem.Services.Decorators;
 using AmbevOrderSystem.Services.Factories;
 using AmbevOrderSystem.Services.Implementations;
 using AmbevOrderSystem.Services.Interfaces;
 using AmbevOrderSystem.Services.Models.Commands.Order;
+using AmbevOrderSystem.Services.Models.Commands.Outbox;
 using AmbevOrderSystem.Services.Models.Commands.Reseller;
 using AmbevOrderSystem.Services.Models.Responses.Order;
+using AmbevOrderSystem.Services.Models.Responses.Outbox;
 using AmbevOrderSystem.Services.Models.Responses.Reseller;
+using AmbevOrderSystem.Services.Services;
 using AmbevOrderSystem.Services.UseCases.Order;
+using AmbevOrderSystem.Services.UseCases.Outbox;
 using AmbevOrderSystem.Services.UseCases.Reseller;
 using AmbevOrderSystem.Services.Validators;
 using FluentValidation;
@@ -31,8 +36,11 @@ namespace AmbevOrderSystem.Api.DependencyInjection
 
             services.AddScoped<IResellerRepository, ResellerRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOutboxRepository, OutboxRepository>();
 
             services.AddScoped<IValidationService, ValidationService>();
+            services.AddScoped<IOutboxService, OutboxService>();
+            services.AddScoped<IAmbevApiService, MockAmbevApiService>();
 
             services.AddScoped<IResellerFactory, ResellerFactory>();
             services.AddScoped<IOrderFactory, OrderFactory>();
@@ -53,6 +61,11 @@ namespace AmbevOrderSystem.Api.DependencyInjection
             services.AddScoped<GetOrderByIdUseCase>();
             services.AddScoped<GetOrdersByResellerUseCase>();
             services.AddScoped<ProcessPendingOrdersUseCase>();
+
+            services.AddScoped<GetPendingCountUseCase>();
+            services.AddScoped<GetMessagesByCorrelationIdUseCase>();
+            services.AddScoped<ProcessPendingMessagesUseCase>();
+            services.AddScoped<ProcessRetryMessagesUseCase>();
 
             services.AddScoped<AbstractValidator<CreateResellerCommand>, CreateResellerCommandValidator>();
             services.AddScoped<AbstractValidator<UpdateResellerCommand>, UpdateResellerCommandValidator>();
@@ -85,6 +98,13 @@ namespace AmbevOrderSystem.Api.DependencyInjection
             services.AddScoped<IUseCase<GetOrdersByResellerCommand, GetAllOrdersResponse>, GetOrdersByResellerUseCase>();
             services.AddScoped<IUseCase<ProcessPendingOrdersCommand, ProcessPendingOrdersResponse>, ProcessPendingOrdersUseCase>();
 
+            services.AddScoped<IUseCase<GetPendingCountCommand, GetPendingCountResponse>, GetPendingCountUseCase>();
+            services.AddScoped<IUseCase<GetMessagesByCorrelationIdCommand, GetMessagesByCorrelationIdResponse>, GetMessagesByCorrelationIdUseCase>();
+            services.AddScoped<IUseCase<ProcessPendingMessagesCommand, ProcessMessagesResponse>, ProcessPendingMessagesUseCase>();
+            services.AddScoped<IUseCase<ProcessRetryMessagesCommand, ProcessMessagesResponse>, ProcessRetryMessagesUseCase>();
+
+            services.AddHostedService<OutboxProcessorService>();
+
             return services;
         }
 
@@ -116,7 +136,6 @@ namespace AmbevOrderSystem.Api.DependencyInjection
                     options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
                 });
 
-            // Configurar ModelState inválido
             services.Configure<ApiBehaviorOptions>(x => x.InvalidModelStateResponseFactory = ctx => new CustomModelStateResponseFactory());
 
             services.AddEndpointsApiExplorer();

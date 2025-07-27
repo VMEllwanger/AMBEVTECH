@@ -60,3 +60,5 @@ nunit-*.xml
 /.vs/ProjectEvaluation/ambevordersystem.metadata.v9.bin
 /.vs/ProjectEvaluation/ambevordersystem.projects.v9.bin
 /.vs/ProjectEvaluation/ambevordersystem.strings.v9.bin
+/coverage
+/coverage-final

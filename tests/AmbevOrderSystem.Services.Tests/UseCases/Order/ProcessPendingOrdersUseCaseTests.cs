@@ -4,10 +4,7 @@ using AmbevOrderSystem.Infrastructure.Repositories;
 using AmbevOrderSystem.Infrastructure.Services;
 using AmbevOrderSystem.Services.Models.Commands.Order;
 using AmbevOrderSystem.Services.UseCases.Order;
-using AutoFixture;
-using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using Moq;
 using ResellerEntity = AmbevOrderSystem.Infrastructure.Entities.Reseller;
 
 namespace AmbevOrderSystem.Services.Tests.UseCases.Order
@@ -63,8 +60,11 @@ namespace AmbevOrderSystem.Services.Tests.UseCases.Order
             _resellerRepositoryMock.Setup(x => x.GetAllAsync())
                 .ReturnsAsync(resellers);
 
-            _orderRepositoryMock.Setup(x => x.GetPendingOrdersAsync())
+            _orderRepositoryMock.Setup(x => x.GetPendingOrdersByResellerIdAsync(resellers[0].Id))
                 .ReturnsAsync(pendingOrders);
+
+            _orderRepositoryMock.Setup(x => x.GetTotalQuantityByResellerIdAsync(resellers[0].Id))
+                .ReturnsAsync(1000);
 
             _orderRepositoryMock.Setup(x => x.UpdateAsync(It.IsAny<CustomerOrder>()))
                 .ReturnsAsync((CustomerOrder order) => order);
@@ -114,8 +114,11 @@ namespace AmbevOrderSystem.Services.Tests.UseCases.Order
             _resellerRepositoryMock.Setup(x => x.GetAllAsync())
                 .ReturnsAsync(resellers);
 
-            _orderRepositoryMock.Setup(x => x.GetPendingOrdersAsync())
+            _orderRepositoryMock.Setup(x => x.GetPendingOrdersByResellerIdAsync(resellers[0].Id))
                 .ReturnsAsync(pendingOrders);
+
+            _orderRepositoryMock.Setup(x => x.GetTotalQuantityByResellerIdAsync(resellers[0].Id))
+                .ReturnsAsync(500); // Quantidade insuficiente
 
             // Act
             var result = await _useCase.ExecuteAsync(command);
@@ -151,8 +154,11 @@ namespace AmbevOrderSystem.Services.Tests.UseCases.Order
             _resellerRepositoryMock.Setup(x => x.GetAllAsync())
                 .ReturnsAsync(resellers);
 
-            _orderRepositoryMock.Setup(x => x.GetPendingOrdersAsync())
+            _orderRepositoryMock.Setup(x => x.GetPendingOrdersByResellerIdAsync(resellers[0].Id))
                 .ReturnsAsync(pendingOrders);
+
+            _orderRepositoryMock.Setup(x => x.GetTotalQuantityByResellerIdAsync(resellers[0].Id))
+                .ReturnsAsync(1000);
 
             _orderRepositoryMock.Setup(x => x.UpdateAsync(It.IsAny<CustomerOrder>()))
                 .ReturnsAsync((CustomerOrder order) => order);
