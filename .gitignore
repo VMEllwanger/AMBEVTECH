@@ -50,5 +50,15 @@ CodeCoverage/
 
 # NUnit
 *.VisualState.xml
-TestResult.xml
+TestResult.xml 
 nunit-*.xml
+/.vs/AmbevOrderSystem/config
+/.vs/AmbevOrderSystem/CopilotIndices/17.13.444.19527
+/.vs/AmbevOrderSystem/DesignTimeBuild
+/.vs/AmbevOrderSystem/FileContentIndex
+/.vs/AmbevOrderSystem/v17
+/.vs/ProjectEvaluation/ambevordersystem.metadata.v9.bin
+/.vs/ProjectEvaluation/ambevordersystem.projects.v9.bin
+/.vs/ProjectEvaluation/ambevordersystem.strings.v9.bin
+/coverage
+/coverage-final
